@@ -1,0 +1,7 @@
+SEANCE_1 :
+
+q 1&2)
+Avec la fonction naive_is_prime, on arrive vite a des valeurs très longues a calculer car sa complexité est de N, >N étant le nombre fourni en paramètre. Quand on atteint les milliards, on mesure en secondes le temps pour calculer un nombre premier ce qui n'est pas etonnant au vu de la frequence du processeur.
+
+q.3)
+
