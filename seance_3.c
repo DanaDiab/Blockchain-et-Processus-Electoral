@@ -127,24 +127,3 @@ void delete_list_protected(CellProtected * LCP){
 		delete_cell_protected(cell);
 	}
 }
-/*
-void delete_non_valide(CellProtected ** LCP){
-	CellProtected * prec=NULL;
-	CellProtected * temp=*LCP;
-	while (temp!=NULL){
-		if (verify(temp)!=1){
-			if (prec==NULL){
-				prec=temp;
-				temp=temp->next;
-				delete_cell_protected(prec);
-			}
-			else{
-				prec->next=temp->next;
-				delete_cell_protected(temp);
-			}
-		else{
-			prec=temp;
-			temp=temp->next;
-		}
-	}
-}*/
