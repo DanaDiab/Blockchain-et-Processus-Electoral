@@ -1,0 +1,13 @@
+SEANCE_1 :
+
+Q1- La complexité de la fonction is_prime_naive est de complexité n, n étant la valeur fourni en paramètre. 
+
+Q2-  Avec la fonction naive_is_prime, on arrive vite a des valeurs très longues à calculer. Quand on atteint n=1000000000, on mesure en secondes le temps pour calculer si un nombre premier, ce qui n'est pas étonnant au vu de la frequence du processeur.
+
+Q3- La complexité de modpow_naive est m, m étant la deuxième valeur fourni en paramètre.
+
+Q5- Les courbes de ces deux fonctions montrent clairement la complexité pire cas de chacune d'elles (m et log(m)).
+
+Q7- Dans le pire des cas, on ne test l'existence d'un témoin qu'une seule fois, donc k=1. Et comme, au moins 3/4 des valeurs entre 2 et p-1 sont témoins de p, alors au plus 1/4 ne le sont pas. Donc la borne supérieur sur la probabilité d'erreur que p soit premier alors qu'il ne l'est pas est (1/4)^k = 1/4 pour k=1
+
+
