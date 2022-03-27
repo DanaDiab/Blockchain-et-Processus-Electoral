@@ -162,14 +162,8 @@ Protected * str_to_protected(char *str)
 	char key[256];
 	char signature[256];
 	char m[256];
-	char m1[256];
-	char m2[256];
-	sscanf(str, "%s %s %s %s %s \n", key, m,m1,m2, signature); 	//Lecture dans str, m = 'vote' , m1 = 'pour' , m2= clé du candidats
+	sscanf(str, "%s %s %s \n", key, m, signature);
 	Key* clef = str_to_key(key);
-	strcat(m," ");			//Concaténation des 3 parties du message séparés par des espaces.
-	strcat(m,m1);
-	strcat(m," ");
-	strcat(m,m2);
         Signature* sign = str_to_signature(signature);
 	return init_protected(clef, m, sign);	//Allocation et Initialisation de protected
 }
@@ -234,10 +228,11 @@ void generate_random_data(int nv, int nc)
 		alea=rand()%(nc);	//Choix aleatoire du candidat auquel le citoyen va voter.
 		char msg[256];
 		char *key_str2=key_to_str(tab_nc[alea]);
-		sprintf(msg,"vote pour %s", key_str2);		 //Le message dans protected
+		sprintf(msg,"%s", key_str2);		 //Le message dans protected
 		
 		pk=tab_nv[i];			//La clé publique dans protected
-		s=sign(msg, pk);		//La signature dans protected
+		sk=tab_sk[i];
+		s=sign(msg, sk);		//La signature dans protected
 		declaration=init_protected(pk, msg, s);		//Initialisation de protected  
 		char *p_str=protected_to_str(declaration);	//Transformation de protected en *char
 		fprintf(f_declarations, "%s", p_str);		//Ecriture dans le fichier

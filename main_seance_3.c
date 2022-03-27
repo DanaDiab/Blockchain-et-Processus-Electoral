@@ -16,12 +16,8 @@ int main(){
 
 	CellProtected* LCP=read_protected();
 	print_list_protected(LCP);
-	while (LCP){
-		printf(" verify= %d\n",verify(LCP->data));
-		LCP=LCP->next;
-	}/*
-	LCP=delete_non_valide(LCP);
-	*/	
+	delete_non_valide(&LCP);
+	print_list_protected(LCP);
 	delete_list_protected(LCP);
 	return 0;
 }

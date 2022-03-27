@@ -144,7 +144,6 @@ long *encrypt(char *chaine, long s, long n)		//Chiffrage de chaine en un tableau
 	while (chaine[i]!='\0')
 	{
 		c[i]=modpow_rec((int)chaine[i], s, n);	// le long qui represente chaine[i] est (chaine[i]^s) mod n
-		printf("(int)chaine[i] = %d\n", (int)chaine[i]);
 		i++;
 	}
 	return c;	//retourne le tableau de long
@@ -158,7 +157,6 @@ char* decrypt(long *crypted, int size, long u, long n)
 
 		int mp=(int)(modpow_rec(crypted[i], u, n));	// res[i]= (cypted[i]^u) mod n 
 		res[i]=(char)(mp);				//Casting en char avant de stocker le résultat
-		printf("res[i] = %d\n", (int)mp);
 	}
 	res[size]='\0';						//Ajout de '\0' à la fin de la chaine.
 	printf("res=%s\n",res);

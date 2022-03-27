@@ -25,5 +25,5 @@ CellProtected* read_protected();
 void print_list_protected(CellProtected* LCP);
 void delete_cell_protected(CellProtected *c);
 void delete_list_protected(CellProtected * LCP);
-CellProtected * delete_non_valide(CellProtected * LCP);
+void delete_non_valide(CellProtected ** LCP);
 #endif

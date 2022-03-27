@@ -128,9 +128,10 @@ void delete_list_protected(CellProtected * LCP){	//Liberation de la memoire de t
 	}
 }
 
-CellProtected* delete_non_valide(CellProtected * LCP){
+void delete_non_valide(CellProtected ** LCP){
 	CellProtected * prec=NULL;
-	CellProtected * curr=LCP;
+	CellProtected * head=*LCP;
+	CellProtected * curr=*LCP;
 	CellProtected * temp=NULL;
 	while (curr!=NULL){
 		if (verify(curr->data)==0){			//Cas où la signature n'est pas valide
@@ -150,6 +151,5 @@ CellProtected* delete_non_valide(CellProtected * LCP){
 			prec=curr;
 			curr=curr->next;
 		}
-	}
-	return LCP;
+	}*LCP=head;
 }
