@@ -90,8 +90,8 @@ CellProtected* read_protected(){
 	FILE* f=fopen("declarations.txt","r");
 	CellProtected* LCP=NULL;
 	if (f!=NULL){
-		char line[256];
-		while (fgets(line,256,f)){
+		char line[512];
+		while (fgets(line,512,f)){
 			Protected *p=str_to_protected(line);
 			add_cell_protected(&LCP,p);
 		}
@@ -126,4 +126,30 @@ void delete_list_protected(CellProtected * LCP){
 		LCP=LCP->next;
 		delete_cell_protected(cell);
 	}
+}
+
+CellProtected* delete_non_valide(CellProtected * LCP){
+	CellProtected * prec=NULL;
+	CellProtected * curr=LCP;
+	CellProtected * temp=NULL;
+	while (curr!=NULL){
+		if (verify(curr->data)==0){
+			if (prec==NULL){
+				temp=curr;
+				curr=curr->next;
+				delete_cell_protected(temp);
+			}
+			else{
+				temp=curr;
+				curr=curr->next;
+				prec->next=curr;
+				delete_cell_protected(temp);
+			}
+		}
+		else{
+			prec=curr;
+			curr=curr->next;
+		}
+	}
+	return LCP;
 }

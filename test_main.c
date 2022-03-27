@@ -47,7 +47,7 @@ int main ()
 	printf ( "cle privee = (%ld,%ld)\n" ,u , n ) ;
 
 	//Chiffrement:
-	char mess [10] = "Hello" ;
+	char mess [256] = "Hello" ;
 	int len = strlen ( mess ) ;
 	long * crypted = encrypt ( mess , s , n ) ;
 

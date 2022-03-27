@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
 
 	FILE *fichier=fopen("sortie_vitesse_modpow.txt","w"); //Ouverture d'un fichier
-	for (int i=0;i<100000;i++){ //boucle qui calcul le temps d'execution pour chaque fonction
+	for (int i=0;i<10000;i++){ //boucle qui calcul le temps d'execution pour chaque fonction
 		temps_mpnaive_init=clock();
 		modpow_naive(3,i,5);
 		temps_mpnaive_fin=clock();

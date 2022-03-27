@@ -22,8 +22,8 @@ void delete_list_keys(CellKey * LCK);
 CellProtected* create_cell_protected(Protected *pr);
 void add_cell_protected(CellProtected **LCP, Protected * pr);
 CellProtected* read_protected();
-void print_list_protected(CellProtected* LC);
+void print_list_protected(CellProtected* LCP);
 void delete_cell_protected(CellProtected *c);
 void delete_list_protected(CellProtected * LCP);
-
+CellProtected * delete_non_valide(CellProtected * LCP);
 #endif

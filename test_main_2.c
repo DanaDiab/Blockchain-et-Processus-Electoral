@@ -30,7 +30,10 @@ int main(void){
   init_pair_keys(pKeyC, sKeyC,3,7);
 
   //Declaration
-  char* mess = key_to_str(pKeyC);
+  char mess[256]= "vote pour ";
+	char *key_str1=key_to_str(pKeyC);
+strcat(mess,key_str1);
+free(key_str1);
 	char* pkey_str=key_to_str(pKey);
   printf("%s vote pour %s\n",pkey_str, mess);
 	free(pkey_str);
@@ -70,12 +73,11 @@ int main(void){
 	free(sign_str);
 	free(chaine);
 	free(k);
-	free(mess);
 	free(sgn->content);
 	free(pKey);
-  free(sKey);
-  free(pKeyC);
-  free(sKeyC);
+  	free(sKey);
+  	free(pKeyC);
+  	free(sKeyC);
 	free(sgn);
 	free(pr->pkey);
 	free(pr->mess);

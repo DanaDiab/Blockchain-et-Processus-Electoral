@@ -100,8 +100,8 @@ int is_prime_miller ( long p , int k ) { //Retourne 1 si p est premier, 0 sinon.
 }
 
 long random_prime_number(int low_size, int up_size, int k ){
-	long min = pow(2, low_size-1); //plus petit entier codé avec low_size bits
-	long max = pow(2, up_size)-1; //plus grand entier codé avec
+	long min = powl(2, low_size-1); //plus petit entier codé avec low_size bits
+	long max = powl(2, up_size)-1; //plus grand entier codé avec
 	long alea= rand_long(min, max);
 	int premier=is_prime_miller(alea,k);
 	while (premier!=1){
@@ -140,11 +140,12 @@ long *encrypt(char *chaine, long s, long n)
 {
 	int size = strlen(chaine);
 	long *c = (long*)malloc(size*sizeof(long));
-	for(int i=0; i<size; i++)
+	int i=0;
+	while (chaine[i]!='\0')
 	{
-		//assert(modpow_naive((int)chaine[i], s, n)==modpow((int)chaine[i], s, n));
-		c[i]=modpow((int)chaine[i], s, n);
+		c[i]=modpow_rec((int)chaine[i], s, n);
 		printf("(int)chaine[i] = %d\n", (int)chaine[i]);
+		i++;
 	}
 	return c;
 }
@@ -154,10 +155,13 @@ char* decrypt(long *crypted, int size, long u, long n)
 	char *res = (char*)malloc((size+1)*sizeof(char));
 	for(int i=0; i<size; i++)
 	{
-		res[i]=(char)modpow(crypted[i], u, n);
-		printf("res[i] = %d\n", (int)res[i]);
+
+		int mp=(int)modpow_rec(crypted[i], u, n);
+		res[i]=(char)mp;
+		printf("res[i] = %d\n", (int)mp);
 	}
 	res[size]='\0';
+	printf("res=%s\n",res);
 	return res;
 }
 
