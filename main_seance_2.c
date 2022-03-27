@@ -7,6 +7,7 @@
 #include "seance_2.h"
 
 int main(){
+	srand(time(NULL));
 	Key* pk=(Key*)malloc(sizeof(Key));
 	Key * sk=(Key*)malloc(sizeof(Key));
 
@@ -27,7 +28,7 @@ int main(){
 	printf("pk_bis : k=%lx, n=%lx\n", pk_bis->k, pk_bis->n);
 	printf("sk_bis : k=%lx, n=%lx\n", sk_bis->k, sk_bis->n);
 	
-	generate_random_data(100, 10);
+	generate_random_data(20, 4);
 	
 	free(pk_bis);
 	free(sk_bis);

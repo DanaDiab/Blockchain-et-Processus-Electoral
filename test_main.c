@@ -8,6 +8,7 @@
 
 int main ()
 {
+	srand(time(NULL));
 	long a_test = 1234;
 	long b_test = 5678;
 	long u_test = 0;

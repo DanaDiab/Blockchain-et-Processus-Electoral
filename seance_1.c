@@ -156,8 +156,8 @@ char* decrypt(long *crypted, int size, long u, long n)
 	for(int i=0; i<size; i++)
 	{
 
-		int mp=(int)modpow_rec(crypted[i], u, n);
-		res[i]=(char)mp;
+		int mp=(int)(modpow_rec(crypted[i], u, n));
+		res[i]=(char)(mp);
 		printf("res[i] = %d\n", (int)mp);
 	}
 	res[size]='\0';

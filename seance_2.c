@@ -205,9 +205,9 @@ void generate_random_data(int nv, int nc)
 	int flag=0;
 	for (int i=0;i<nc;i++){
 		flag=0;
-		alea=rand()%(nv+1);
+		alea=rand()%(nv);
 		while (!flag){
-			alea=rand()%(nv+1);
+			alea=rand()%(nv);
 			for (int j=0;j<i;j++){
 				if (tab_nv[alea]==tab_nc[j]){
 					break;
