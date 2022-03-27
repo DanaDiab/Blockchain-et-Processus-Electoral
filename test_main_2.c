@@ -32,8 +32,8 @@ int main(void){
   //Declaration
   char mess[256]= "vote pour ";
 	char *key_str1=key_to_str(pKeyC);
-strcat(mess,key_str1);
-free(key_str1);
+	strcat(mess,key_str1);
+	free(key_str1);
 	char* pkey_str=key_to_str(pKey);
   printf("%s vote pour %s\n",pkey_str, mess);
 	free(pkey_str);
@@ -75,9 +75,9 @@ free(key_str1);
 	free(k);
 	free(sgn->content);
 	free(pKey);
-  	free(sKey);
-  	free(pKeyC);
-  	free(sKeyC);
+  free(sKey);
+  free(pKeyC);
+ 	free(sKeyC);
 	free(sgn);
 	free(pr->pkey);
 	free(pr->mess);
