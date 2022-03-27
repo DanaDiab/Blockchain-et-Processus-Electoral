@@ -7,7 +7,7 @@
 #include"seance_1.h"
 #include"seance_2.h"
 
-void init_key(Key* key, long val, long n)
+void init_key(Key* key, long val, long n)	//Initialise un structure Key déjà allouée.
 {
 	key->k=val;
 	key->n=n;
@@ -20,13 +20,13 @@ void init_pair_keys(Key* pk, Key* sk, long low_size, long up_size)
 	long n;
 	long s;
 	long u;
-	while(p==q)
+	while(p==q)			// générer deux long premiers et distincts
 	{
 		p = random_prime_number(low_size, up_size, 5000);
 		q = random_prime_number(low_size, up_size, 5000);
 	}
 
-	generate_key_values(p, q, &n, &s, &u);
+	generate_key_values(p, q, &n, &s, &u);		//generer les valeurs n,s,u qui vont servir de clé publique et secrète.
 
 	if (u <0) //pour avoir des clés positives
 	{
@@ -34,33 +34,33 @@ void init_pair_keys(Key* pk, Key* sk, long low_size, long up_size)
 	u = u + t ; //on aura toujours s*u mod t = 1
 	}
 
-	init_key(pk, s, n);
-	init_key(sk, u, n);
+	init_key(pk, s, n);		//initialisation de la clé publique
+	init_key(sk, u, n);		//initialisation de la clé secrète
 
 }
 
 
-char * key_to_str(Key*  key){
-	char *buffer=(char*)malloc(256*sizeof(char));
-	sprintf(buffer, "(%lx,%lx)", key->k,key->n);
+char * key_to_str(Key*  key){				//Serialization de Key en chaine de caratère
+	char *buffer=(char*)malloc(256*sizeof(char));	//Allocation dynamique de la chaine de caractères.
+	sprintf(buffer, "(%lx,%lx)", key->k,key->n);	//Ecriture des valeurs de la clé dans le buffer sous forme de (k,n)
 	return buffer;
 }
 
-Key* str_to_key(char* str){
+Key* str_to_key(char* str){				//Transforme une chaine de caractère en Key;
 	long k, n;
-	sscanf(str,"(%lx,%lx)",&k,&n);
-	Key * key=(Key*)malloc(sizeof(Key));
+	sscanf(str,"(%lx,%lx)",&k,&n);			//Lire dans str et stocker les valeurs dans k et n;
+	Key * key=(Key*)malloc(sizeof(Key));		//Allocation de la clé
 	if (key!=NULL){
-		init_key(key,k,n);
+		init_key(key,k,n);			//Initialisation de la clé
 	}
 	return key;
 }
 
-Signature* init_signature(long *content, int size)
+Signature* init_signature(long *content, int size)	
 {
-	Signature *sign=(Signature*)malloc(sizeof(Signature));
+	Signature *sign=(Signature*)malloc(sizeof(Signature));	//Allocation dynamique d'une signature
 	if(sign==NULL)return NULL;
-	sign->size=size;
+	sign->size=size;					//Initialisation
 	sign->content=content;
 
 	return sign;
@@ -69,14 +69,14 @@ Signature* init_signature(long *content, int size)
 Signature* sign(char* mess, Key* sKey)
 {
 	int size = strlen(mess);
-	long *content=encrypt(mess, sKey->k, sKey->n);
-	Signature *sign = init_signature(content, size);
+	long *content=encrypt(mess, sKey->k, sKey->n);		//Chiffrage de la signture avec la clé secrète
+	Signature *sign = init_signature(content, size);	//Allocation et initialisation 
 	if(sign!=NULL)return sign;
 	return NULL;
 }
 
 
-char* signature_to_str(Signature* sgn)
+char* signature_to_str(Signature* sgn)	//Serialization de la signature en chaine de caractères
 {
 	char* result = malloc((10*(sgn->size))*sizeof(char));
 	result [0]='#';
@@ -127,18 +127,18 @@ Signature* str_to_signature(char* str)
 	return init_signature(content , num);
 }
 
-Protected* init_protected(Key* pkey, char * mess, Signature* sgn){
+Protected* init_protected(Key* pkey, char * mess, Signature* sgn){	//Allocation et initialisation de Protected
 	Protected * p=malloc(sizeof(Protected));
 	if (p!=NULL){
 		p->pkey=pkey;
-		p->mess=strdup(mess);
+		p->mess=strdup(mess); 		//Allocation et copie de mess
 		p->sign=sgn;
 	}
 	return p;
 }
 
 int verify(Protected *pr){		//retourne 1 si la vérification réussi
-	char *sign_decrypted=decrypt(pr->sign->content, pr->sign->size, pr->pkey->k, pr->pkey->n);
+	char *sign_decrypted=decrypt(pr->sign->content, pr->sign->size, pr->pkey->k, pr->pkey->n); //
 	int v=0;
 	if (strcmp(sign_decrypted,pr->mess)==0){
 		v=1;
