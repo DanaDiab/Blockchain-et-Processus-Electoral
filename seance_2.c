@@ -69,7 +69,7 @@ Signature* init_signature(long *content, int size)
 Signature* sign(char* mess, Key* sKey)
 {
 	int size = strlen(mess);
-	long *content=encrypt(mess, sKey->k, sKey->n);		//Chiffrage de la signture avec la clé secrète
+	long *content=encrypt(mess, sKey->k, sKey->n);		//Chiffrage de la signature avec la clé secrète
 	Signature *sign = init_signature(content, size);	//Allocation et initialisation 
 	if(sign!=NULL)return sign;
 	return NULL;
@@ -138,20 +138,20 @@ Protected* init_protected(Key* pkey, char * mess, Signature* sgn){	//Allocation 
 }
 
 int verify(Protected *pr){		//retourne 1 si la vérification réussi
-	char *sign_decrypted=decrypt(pr->sign->content, pr->sign->size, pr->pkey->k, pr->pkey->n); //
+	char *sign_decrypted=decrypt(pr->sign->content, pr->sign->size, pr->pkey->k, pr->pkey->n); //Dechiffrage de signature
 	int v=0;
-	if (strcmp(sign_decrypted,pr->mess)==0){
+	if (strcmp(sign_decrypted,pr->mess)==0){ 		//Comparaison entre la valeur dechiffré et le message initiale
 		v=1;
 	}
-	free(sign_decrypted);
+	free(sign_decrypted);					//Desallocation de la memoire
 	return v;
 }
 
-char * protected_to_str(Protected* p){
+char * protected_to_str(Protected* p){		//Serialisation de protected en chaine de caractères.
 	char *key=key_to_str(p->pkey);
 	char*sign=signature_to_str(p->sign);
 	char *res=malloc(sizeof(char)*(256*3));
-	sprintf(res,"%s %s %s\n", key,p->mess,sign);
+	sprintf(res,"%s %s %s\n", key,p->mess,sign); //Ecriture des champs de protected sous forme de char * dans res.
 	free(key);
 	free(sign);
 	return res;
@@ -164,39 +164,42 @@ Protected * str_to_protected(char *str)
 	char m[256];
 	char m1[256];
 	char m2[256];
-	sscanf(str, "%s %s %s %s %s \n", key, m,m1,m2, signature);
+	sscanf(str, "%s %s %s %s %s \n", key, m,m1,m2, signature); 	//Lecture dans str, m = 'vote' , m1 = 'pour' , m2= clé du candidats
 	Key* clef = str_to_key(key);
-	strcat(m," ");
+	strcat(m," ");			//Concaténation des 3 parties du message séparés par des espaces.
 	strcat(m,m1);
 	strcat(m," ");
 	strcat(m,m2);
         Signature* sign = str_to_signature(signature);
-	return init_protected(clef, m, sign);
+	return init_protected(clef, m, sign);	//Allocation et Initialisation de protected
 }
 
 void generate_random_data(int nv, int nc)
+	//Création de 3 fichiers: keys.txt contient les clés publiques et secretes des citoyens
+				//candidates.txt contient les clés publiques des candidats
+				// declarations.txt contient pour chaque citoyen, sa clé publique, son message et sa signature.
 {
 	Key* pk = NULL;
 	Key* sk = NULL;
-	Key* tab_nc[nc];
-	Key* tab_nv[nv];
-	Key* tab_sk[nv];
-	FILE *f_keys = fopen("keys.txt", "w");
+	Key* tab_nc[nc];		// tableau qui stock les clés publiques des citoyens
+	Key* tab_nv[nv];		// tableau qui stock les clés publiques des candidats
+	Key* tab_sk[nv];		// tableau qui stock les clés secretes des citoyens
+	FILE *f_keys = fopen("keys.txt", "w");		//Ouverture des fichiers
 	FILE *f_candidats=fopen("candidates.txt", "w");
 	FILE *f_declarations=fopen("declarations.txt", "w");
 	char * key_str;
 	char * key_str1;
 	for(int i=0; i<nv; i++)
 	{
-		pk=(Key*)malloc(sizeof(Key));
+		pk=(Key*)malloc(sizeof(Key));		//Allocation dynamique des Keys
 		sk=(Key*)malloc(sizeof(Key));
-		init_pair_keys(pk, sk, 3, 7);
-		key_str=key_to_str(pk);
+		init_pair_keys(pk, sk, 3, 7);		//Initialisation des Keys
+		key_str=key_to_str(pk);			//Transformation des keys en str
 		key_str1=key_to_str(sk);
-		fprintf(f_keys, "%s %s\n",key_str,key_str1);
+		fprintf(f_keys, "%s %s\n",key_str,key_str1);	// Ecriture dans le fichier
 		free(key_str);
 		free(key_str1);
-		tab_nv[i]=pk;
+		tab_nv[i]=pk;					//Stockage dans les tableaux
 		tab_sk[i]=sk;
 	}
 	fclose(f_keys);
@@ -206,17 +209,17 @@ void generate_random_data(int nv, int nc)
 	for (int i=0;i<nc;i++){
 		flag=0;
 		alea=rand()%(nv);
-		while (!flag){
-			alea=rand()%(nv);
-			for (int j=0;j<i;j++){
+		while (!flag){		//Tant que le candidat choisi est déjà candidat
+			alea=rand()%(nv);	// Choix aleatoire d'un candidat
+			for (int j=0;j<i;j++){	//S'assurer que le candidat choisi n'est pas deja dans le tableau des candidats.
 				if (tab_nv[alea]==tab_nc[j]){
 					break;
 				}
 			}
 			if (!flag){
-				tab_nc[i]=tab_nv[alea];
+				tab_nc[i]=tab_nv[alea];		//Ajout du nouveau candidat dans le tableau des candidats
 				key_str=key_to_str(tab_nc[i]);
-				fprintf(f_candidats, "%s\n", key_str);
+				fprintf(f_candidats, "%s\n", key_str);	//Ecriture du nouveau candidats dans le fichier.
 				flag=1;
 				free(key_str);
 			}
@@ -228,17 +231,17 @@ void generate_random_data(int nv, int nc)
 	
 	for(int i=0; i<nv; i++)
 	{
-		alea=rand()%(nc);
+		alea=rand()%(nc);	//Choix aleatoire du candidat auquel le citoyen va voter.
 		char msg[256];
 		char *key_str2=key_to_str(tab_nc[alea]);
-		sprintf(msg,"vote pour %s", key_str2); 
+		sprintf(msg,"vote pour %s", key_str2);		 //Le message dans protected
 		
-		pk=tab_nv[i];
-		s=sign(msg, pk);
-		declaration=init_protected(pk, msg, s);
-		char *p_str=protected_to_str(declaration);
-		fprintf(f_declarations, "%s", p_str);
-		free(key_str2);
+		pk=tab_nv[i];			//La clé publique dans protected
+		s=sign(msg, pk);		//La signature dans protected
+		declaration=init_protected(pk, msg, s);		//Initialisation de protected  
+		char *p_str=protected_to_str(declaration);	//Transformation de protected en *char
+		fprintf(f_declarations, "%s", p_str);		//Ecriture dans le fichier
+		free(key_str2);					//Liberation des espaces memoires allouées et retournées par les fonctions
 		free(s->content);
 		free(s);
 		free(declaration->mess);
@@ -249,8 +252,8 @@ void generate_random_data(int nv, int nc)
 
 	for(int i=0; i<nv; i++)
 	{
-		free(tab_nv[i]);
-		free(tab_sk[i]);
+		free(tab_nv[i]);		//Liberation des Keys publiques
+		free(tab_sk[i]);		//Liberations des Keys secretes
 	}
 	
 	
