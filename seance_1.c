@@ -35,7 +35,7 @@ long modpow(long a, long m,long n){	//Retourne a^m % n
 	return res;
 }
 
-long modpow_rec(long a, long m, long n)
+long modpow_rec(long a, long m, long n) //Même fonction que modpow mais de façon récusrive.
 {
 	long res;
 	if(m==1)
@@ -101,17 +101,17 @@ int is_prime_miller ( long p , int k ) { //Retourne 1 si p est premier, 0 sinon.
 
 long random_prime_number(int low_size, int up_size, int k ){
 	long min = powl(2, low_size-1); //plus petit entier codé avec low_size bits
-	long max = powl(2, up_size)-1; //plus grand entier codé avec
+	long max = powl(2, up_size)-1; //plus grand entier codé avec up_size bits.
 	long alea= rand_long(min, max);
 	int premier=is_prime_miller(alea,k);
-	while (premier!=1){
+	while (premier!=1){	//on gènere un nouveau entier tant qu'il n'est pas premier.
 		alea = rand_long(min, max);
 		premier=is_prime_miller(alea,k);
 	}
 	return alea;
 }
 
-long extended_gcd(long s, long t, long *u, long *v){
+long extended_gcd(long s, long t, long *u, long *v){ //Algorithme d'euclide étendu
 	if (s==0){
 		*u=0;
 		*v=1;
@@ -119,53 +119,53 @@ long extended_gcd(long s, long t, long *u, long *v){
 	}
 	long uPrim, vPrim;
 	long gcd=extended_gcd(t%s, s, &uPrim,&vPrim);
-	*u=vPrim - (t/s)*uPrim;
+	*u=vPrim - (t/s)*uPrim;		//u et v sont les coeffiecents de Bezout vérifiant : u*s + v*t ;
 	*v=uPrim;
-	return gcd;
+	return gcd;			//Retourne le PGCD de s et t
 }
 
-void generate_key_values(long p, long q, long *n, long *s, long *u){
+void generate_key_values(long p, long q, long *n, long *s, long *u){ 
 	*n=(p*q);
 	long t=(p-1)*(q-1);
 	long v=0;
 	*s=rand_long(2,t-1);
 	long pgcd_st=extended_gcd(*s,t,u,&v);
-	while (pgcd_st!=1){
-		*s=rand_long(2,t-1);
-		pgcd_st=extended_gcd(*s,t,u,&v);
+	while (pgcd_st!=1){ 
+		*s=rand_long(2,t-1); 			//Générer un long s tel que 2 <= s < t
+		pgcd_st=extended_gcd(*s,t,u,&v);	//Tant que s et t ne sont pas premiers entre eux
 	}
 }
 
-long *encrypt(char *chaine, long s, long n)
+long *encrypt(char *chaine, long s, long n)		//Chiffrage de chaine en un tableau de long
 {
-	int size = strlen(chaine);
-	long *c = (long*)malloc(size*sizeof(long));
+	int size = strlen(chaine);			//Retourne le longueur de chaine sans prise en compte de '\0'
+	long *c = (long*)malloc(size*sizeof(long));	//Allocation dynamique du tableau de long
 	int i=0;
 	while (chaine[i]!='\0')
 	{
-		c[i]=modpow_rec((int)chaine[i], s, n);
+		c[i]=modpow_rec((int)chaine[i], s, n);	// le long qui represente chaine[i] est (chaine[i]^s) mod n
 		printf("(int)chaine[i] = %d\n", (int)chaine[i]);
 		i++;
 	}
-	return c;
+	return c;	//retourne le tableau de long
 }
 
 char* decrypt(long *crypted, int size, long u, long n)
 {
-	char *res = (char*)malloc((size+1)*sizeof(char));
+	char *res = (char*)malloc((size+1)*sizeof(char)); //Allocation dynamique d'un tableau de char
 	for(int i=0; i<size; i++)
 	{
 
-		int mp=(int)(modpow_rec(crypted[i], u, n));
-		res[i]=(char)(mp);
+		int mp=(int)(modpow_rec(crypted[i], u, n));	// res[i]= (cypted[i]^u) mod n 
+		res[i]=(char)(mp);				//Casting en char avant de stocker le résultat
 		printf("res[i] = %d\n", (int)mp);
 	}
-	res[size]='\0';
+	res[size]='\0';						//Ajout de '\0' à la fin de la chaine.
 	printf("res=%s\n",res);
 	return res;
 }
 
-void print_long_vector ( long * result , int size )
+void print_long_vector ( long * result , int size )		//Affichage des tableaux de long qui répresente le chiffrage.
 {
 	printf ( "Vector : [" ) ;
 	for(int i=0; i<size; i++)
