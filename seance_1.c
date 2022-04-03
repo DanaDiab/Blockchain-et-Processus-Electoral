@@ -159,7 +159,6 @@ char* decrypt(long *crypted, int size, long u, long n)
 		res[i]=(char)(mp);				//Casting en char avant de stocker le résultat
 	}
 	res[size]='\0';						//Ajout de '\0' à la fin de la chaine.
-	printf("res=%s\n",res);
 	return res;
 }
 

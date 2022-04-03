@@ -197,26 +197,23 @@ void generate_random_data(int nv, int nc)
 		tab_sk[i]=sk;
 	}
 	fclose(f_keys);
-
+	int i=0;
+	int flag;
 	int alea;
-	int flag=0;
-	for (int i=0;i<nc;i++){
+	while (i<nc){
 		flag=0;
 		alea=rand()%(nv);
-		while (!flag){		//Tant que le candidat choisi est déjà candidat
-			alea=rand()%(nv);	// Choix aleatoire d'un candidat
-			for (int j=0;j<i;j++){	//S'assurer que le candidat choisi n'est pas deja dans le tableau des candidats.
-				if (tab_nv[alea]==tab_nc[j]){
-					break;
-				}
+		for (int j=0;j<i;j++){	//S'assurer que le candidat choisi n'est pas deja dans le tableau des candidats.
+			if ((tab_nv[alea]->k==tab_nc[j]->k) && (tab_nv[alea]->n==tab_nc[j]->n)){
+					flag=1;
 			}
-			if (!flag){
-				tab_nc[i]=tab_nv[alea];		//Ajout du nouveau candidat dans le tableau des candidats
-				key_str=key_to_str(tab_nc[i]);
-				fprintf(f_candidats, "%s\n", key_str);	//Ecriture du nouveau candidats dans le fichier.
-				flag=1;
-				free(key_str);
-			}
+		}
+		if (flag==0){
+			tab_nc[i]=tab_nv[alea];		//Ajout du nouveau candidat dans le tableau des candidats
+			key_str=key_to_str(tab_nc[i]);
+			fprintf(f_candidats, "%s\n", key_str);	//Ecriture du nouveau candidats dans le fichier.
+			free(key_str);
+			i++;
 		}
 	}
 	fclose(f_candidats);
