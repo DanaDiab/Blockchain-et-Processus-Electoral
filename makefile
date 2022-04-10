@@ -1,4 +1,4 @@
-all:main_seance_1 test_main main_seance_2 test_main_2 main_seance_3
+all:main_seance_1 test_main main_seance_2 test_main_2 main_seance_3 main_seance_4 main_seance_5
 
 seance_1.o : seance_1.c seance_1.h
 	gcc -Wall -ggdb -c seance_1.c -o seance_1.o -lm
@@ -38,3 +38,21 @@ main_seance_3.o: main_seance_3.c seance_3.h seance_2.h seance_1.h
 
 main_seance_3: main_seance_3.o seance_3.o seance_2.o seance_1.o
 	gcc -Wall -ggdb -o main_seance_3 main_seance_3.o seance_3.o seance_2.o seance_1.o -lm
+
+seance_4.o : seance_4.c seance_4.h seance_3.h seance_2.h seance_1.h
+	gcc -Wall -ggdb -c seance_4.c -o seance_4.o -lm
+
+main_seance_4.o: main_seance_4.c seance_4.h seance_3.h seance_2.h seance_1.h
+	gcc -Wall -ggdb -c main_seance_4.c -o main_seance_4.o -lm
+
+main_seance_4: main_seance_4.o seance_4.o seance_3.o seance_2.o seance_1.o
+	gcc -Wall -ggdb -o main_seance_4 main_seance_4.o seance_4.o seance_3.o seance_2.o seance_1.o -lm
+
+seance_5.o : seance_5.c seance_5.h seance_4.h seance_3.h seance_2.h seance_1.h
+	gcc -Wall -ggdb -c seance_5.c -o seance_5.o -lm -lssl -lcrypto
+
+main_seance_5.o: main_seance_5.c seance_5.h seance_4.h seance_3.h seance_2.h seance_1.h
+	gcc -Wall -ggdb -c main_seance_5.c -o main_seance_5.o -lm -lssl -lcrypto
+
+main_seance_5: main_seance_5.o seance_5.o seance_4.o seance_3.o seance_2.o seance_1.o
+	gcc -Wall -ggdb -o main_seance_5 main_seance_5.o seance_5.o seance_4.o seance_3.o seance_2.o seance_1.o -lm -lssl -lcrypto

@@ -15,11 +15,11 @@ int main(){
 	print_list_keys(LCK);				//Affichage des datas (Keys) de la liste LCP
 	delete_list_keys(LCK);				//Libération de la mémoire allouée pour la list LCP
 
-	CellProtected* LCP=read_protected();
-	printf("LISTE AVANT SUPPRESSION NON VALIDE : \n\n");		//Creation de la liste chainée de CellKey qui contient les valeurs dans 'declarations.txt'
+	CellProtected* LCP=read_protected();		//Creation de la liste chainée de CellKey qui contient les valeurs dans 'declarations.txt'
+	printf("\n\nListe avant controle : \n\n");
 	print_list_protected(LCP);			//Affichage de la liste
-	delete_non_valide(&LCP);
-	printf("\n\n LISTE APRES SUPPRESSION NON VALIDE : \n\n");				//Suppression des éléments de la liste LCP dont la signature n'est pas valide
+	delete_non_valide(&LCP);			//Suppression des éléments de la liste LCP dont la signature n'est pas valide
+	printf("\n\nListe après controle : \n\n");
 	print_list_protected(LCP);			//Affichage de la liste pour bien s'assurer de la suppression (ce qui a été approuvé)
 	delete_list_protected(LCP);			//Suppression du reste de la liste
 	return 0;

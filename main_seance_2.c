@@ -10,7 +10,10 @@ int main(){
 	srand(time(NULL));
 	Key* pk=(Key*)malloc(sizeof(Key));	 //variable qui sert à stocker la clé publique
 	Key * sk=(Key*)malloc(sizeof(Key));  	 //variable qui sert à stocker la clé secrete
-
+	if ((sk==NULL) || (pk==NULL)){
+		printf("Erreur lors de l'allocation\n");
+		return 1;
+	}
 	init_pair_keys(pk,sk, 8, 10);		//fonction qui initialise une paire de clé avec un p et q aleatoire codé avec entre 8 et 10 bits
 	
 	

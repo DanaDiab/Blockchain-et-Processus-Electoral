@@ -140,6 +140,10 @@ long *encrypt(char *chaine, long s, long n)		//Chiffrage de chaine en un tableau
 {
 	int size = strlen(chaine);			//Retourne le longueur de chaine sans prise en compte de '\0'
 	long *c = (long*)malloc(size*sizeof(long));	//Allocation dynamique du tableau de long
+	if (c==NULL){
+		printf("Erreur lors de l'allocation\n");
+		return NULL;
+	}
 	int i=0;
 	while (chaine[i]!='\0')
 	{
@@ -152,11 +156,13 @@ long *encrypt(char *chaine, long s, long n)		//Chiffrage de chaine en un tableau
 char* decrypt(long *crypted, int size, long u, long n)
 {
 	char *res = (char*)malloc((size+1)*sizeof(char)); //Allocation dynamique d'un tableau de char
+	if (res==NULL){
+		printf("Erreur lors de l'allocation\n");
+		return NULL;
+	}
 	for(int i=0; i<size; i++)
 	{
-
-		int mp=(int)(modpow_rec(crypted[i], u, n));	// res[i]= (cypted[i]^u) mod n 
-		res[i]=(char)(mp);				//Casting en char avant de stocker le résultat
+		res[i]=(char)(modpow(crypted[i], u, n));				//Casting en char avant de stocker le résultat
 	}
 	res[size]='\0';						//Ajout de '\0' à la fin de la chaine.
 	return res;

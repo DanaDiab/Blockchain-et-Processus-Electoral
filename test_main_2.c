@@ -12,6 +12,10 @@ int main(void){
   //Testing Init Keys
 	Key* pKey=malloc(sizeof(Key));
   	Key* sKey= malloc(sizeof(Key));
+	if ((pKey==NULL)||(sKey==NULL)){
+		printf("Erreur  lors de l'allocation\n");
+		return 1;
+	}
   	init_pair_keys(pKey,sKey,3, 7);
   	printf("pKey: %lx, %lx \n",pKey->k,pKey->n);
   	printf("sKey: %lx, %lx \n",sKey->k,sKey->n);
@@ -27,6 +31,13 @@ int main(void){
   	//Candidate keys :
   	Key* pKeyC=malloc(sizeof(Key));
   	Key* sKeyC=malloc(sizeof(Key));
+	if ((pKeyC==NULL)||(sKeyC==NULL)){
+		printf("Erreur  lors de l'allocation\n");
+		free(pKey);
+		free(k);
+  		free(sKey);
+		return 1;
+	}
   	init_pair_keys(pKeyC, sKeyC,3,7);
 
   	//Declaration

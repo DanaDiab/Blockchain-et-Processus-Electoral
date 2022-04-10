@@ -35,7 +35,6 @@ int find_position(HashTable* t, Key* key)
 	if(key != NULL)
 	{
 		int index= hash_function(key, t->size);
-		//printf("INDEX : %d\n", index);
 		int hash_index=index; //Si on doit procéder à un probing on garde la valeur initiale de l'index.
 		do
 		{
@@ -49,9 +48,16 @@ int find_position(HashTable* t, Key* key)
 
 HashTable * create_hashtable(CellKey* keys, int size){
 		HashTable * hashtab=(HashTable*)malloc(sizeof(HashTable));
-		if (hashtab==NULL) return NULL;
+		if (hashtab==NULL){
+			printf("Erreur lors de l'allocation\n");
+			return NULL;
+		}
 		hashtab->size=size;
 		hashtab->tab=(HashCell**)malloc(sizeof(HashCell*)*size);
+		if (hashtab->tab==NULL){
+			printf("Erreur lors de l'allocation\n");
+			return NULL;
+		}
 		//on initialise tout a NULL pour eviter les segfaults...
 		for(int i=0; i<size; i++)
 		{
@@ -69,7 +75,7 @@ HashTable * create_hashtable(CellKey* keys, int size){
 			}
 			keys=keys->next;
 		}
-		return hashtab;
+	return hashtab;
 }
 
 

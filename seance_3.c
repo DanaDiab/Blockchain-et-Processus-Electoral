@@ -33,14 +33,16 @@ CellKey* read_public_keys(char *fichier){
 		char pkey[256];
 		char skey[256];
 		Key * key;
-		if (f!=NULL){
-			while (fgets(line,256,f)){			//Lecture des lignes du fichier
-				sscanf(line,"%s %s\n",pkey,skey); 	//Extraire les clés publiques et secretes
-				key=str_to_key(pkey);
-				add_cell_key(&LCK,key);			// Ajout d'une nouvelle cellule contenant la clé publique	
-			}
-			fclose(f);
+		if (f==NULL){
+			printf("Erreur lors de l'ouverture du fichier \n");
+			return NULL;
 		}
+		while (fgets(line,256,f)){			//Lecture des lignes du fichier
+			sscanf(line,"%s %s\n",pkey,skey); 	//Extraire les clés publiques et secretes
+			key=str_to_key(pkey);
+			add_cell_key(&LCK,key);			// Ajout d'une nouvelle cellule contenant la clé publique	
+		}
+		fclose(f);
 	}
 	return LCK;
 }
@@ -89,14 +91,16 @@ void add_cell_protected(CellProtected **LCP, Protected * pr){	//Ajout d'une nouv
 CellProtected* read_protected(){		//Creation d'une liste CellProtected à partir d'un fichier
 	FILE* f=fopen("declarations.txt","r");	//ouverture du fichier
 	CellProtected* LCP=NULL;
-	if (f!=NULL){
-		char line[512];		
-		while (fgets(line,512,f)){	//lecture des lignes
-			Protected *p=str_to_protected(line);	//Creation du protected
-			add_cell_protected(&LCP,p);		//Ajout de la nouvelle cellule en tête de liste
-		}
-		fclose(f);
-	}	
+	if (f==NULL){
+		printf("Erreur lors de l'ouverture du fichier\n");
+		return NULL;
+	}
+	char line[512];		
+	while (fgets(line,512,f)){	//lecture des lignes
+		Protected *p=str_to_protected(line);	//Creation du protected
+		add_cell_protected(&LCP,p);		//Ajout de la nouvelle cellule en tête de liste
+	}
+	fclose(f);	
 	return LCP;
 }
 		
@@ -130,26 +134,28 @@ void delete_list_protected(CellProtected * LCP){	//Liberation de la memoire de t
 
 void delete_non_valide(CellProtected ** LCP){
 	CellProtected * prec=NULL;
-	CellProtected * head=*LCP;
 	CellProtected * curr=*LCP;
 	CellProtected * temp=NULL;
 	while (curr!=NULL){
 		if (verify(curr->data)==0){			//Cas où la signature n'est pas valide
-			if (prec==NULL){			//L'element à enlever est en tête
-				temp=curr;
-				curr=curr->next;
-				delete_cell_protected(temp);	//Libération d'une cellule
-			}
-			else{
+			if (prec!=NULL){
 				temp=curr;
 				curr=curr->next;
 				prec->next=curr;
 				delete_cell_protected(temp);	//Libération d'une cellule
+					
+			}
+			else{
+				*LCP=curr->next;
+				temp=curr;
+				curr=curr->next;
+				delete_cell_protected(temp);
+				
 			}
 		}
 		else{						//Cas ou la signature est valide
 			prec=curr;
 			curr=curr->next;
 		}
-	}*LCP=head;
+	}
 }

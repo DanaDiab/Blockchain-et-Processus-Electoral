@@ -42,7 +42,8 @@ void init_pair_keys(Key* pk, Key* sk, long low_size, long up_size)
 
 char * key_to_str(Key*  key){				//Serialization de Key en chaine de caratère
 	char *buffer=(char*)malloc(256*sizeof(char));	//Allocation dynamique de la chaine de caractères.
-	sprintf(buffer, "(%lx,%lx)", key->k,key->n);	//Ecriture des valeurs de la clé dans le buffer sous forme de (k,n)
+	if (buffer!=NULL)
+		sprintf(buffer, "(%lx,%lx)", key->k,key->n);	//Ecriture des valeurs de la clé dans le buffer sous forme de (k,n)
 	return buffer;
 }
 
@@ -59,7 +60,10 @@ Key* str_to_key(char* str){				//Transforme une chaine de caractère en Key;
 Signature* init_signature(long *content, int size)	
 {
 	Signature *sign=(Signature*)malloc(sizeof(Signature));	//Allocation dynamique d'une signature
-	if(sign==NULL)return NULL;
+	if(sign==NULL){
+		printf("Erreur lors de l'allocation\n");	
+		return NULL;
+	}
 	sign->size=size;					//Initialisation
 	sign->content=content;
 
@@ -71,8 +75,7 @@ Signature* sign(char* mess, Key* sKey)
 	int size = strlen(mess);
 	long *content=encrypt(mess, sKey->k, sKey->n);		//Chiffrage de la signature avec la clé secrète
 	Signature *sign = init_signature(content, size);	//Allocation et initialisation 
-	if(sign!=NULL)return sign;
-	return NULL;
+	return sign;
 }
 
 
@@ -139,9 +142,9 @@ Protected* init_protected(Key* pkey, char * mess, Signature* sgn){	//Allocation 
 
 int verify(Protected *pr){		//retourne 1 si la vérification réussi
 	char *sign_decrypted=decrypt(pr->sign->content, pr->sign->size, pr->pkey->k, pr->pkey->n); //Dechiffrage de signature
-	int v=0;
-	if (strcmp(sign_decrypted,pr->mess)==0){ 		//Comparaison entre la valeur dechiffré et le message initiale
-		v=1;
+	int v=1;
+	if (strcmp(sign_decrypted,pr->mess)!=0){ 		//Comparaison entre la valeur dechiffré et le message initiale
+		v=0;
 	}
 	free(sign_decrypted);					//Desallocation de la memoire
 	return v;
@@ -151,7 +154,9 @@ char * protected_to_str(Protected* p){		//Serialisation de protected en chaine d
 	char *key=key_to_str(p->pkey);
 	char*sign=signature_to_str(p->sign);
 	char *res=malloc(sizeof(char)*(256*3));
-	sprintf(res,"%s %s %s\n", key,p->mess,sign); //Ecriture des champs de protected sous forme de char * dans res.
+	if (res!=NULL){
+		sprintf(res,"%s %s %s\n", key,p->mess,sign); //Ecriture des champs de protected sous forme de char * dans res.
+	}
 	free(key);
 	free(sign);
 	return res;
@@ -181,12 +186,20 @@ void generate_random_data(int nv, int nc)
 	FILE *f_keys = fopen("keys.txt", "w");		//Ouverture des fichiers
 	FILE *f_candidats=fopen("candidates.txt", "w");
 	FILE *f_declarations=fopen("declarations.txt", "w");
+	if ((f_keys==NULL) || (f_candidats==NULL) || (f_declarations==NULL)){
+		printf("Erreur lors de l'ouverture du fichier\n");
+		return;
+	}
 	char * key_str;
 	char * key_str1;
 	for(int i=0; i<nv; i++)
 	{
 		pk=(Key*)malloc(sizeof(Key));		//Allocation dynamique des Keys
 		sk=(Key*)malloc(sizeof(Key));
+		if ((pk==NULL) || (sk==NULL)){
+			printf("Erreur lors de l'allocation\n");
+			return;
+		}
 		init_pair_keys(pk, sk, 3, 7);		//Initialisation des Keys
 		key_str=key_to_str(pk);			//Transformation des keys en str
 		key_str1=key_to_str(sk);
