@@ -15,10 +15,11 @@ int main()
 	
 	char *fichier_voters="keys.txt";
 	char *fichier_candidates="candidates.txt";
+	char *fichier_decl="declarations.txt";
 
 	CellKey* voters=read_public_keys(fichier_voters);
 	CellKey* candidates=read_public_keys(fichier_candidates);	
-	CellProtected* decl=read_protected();
+	CellProtected* decl=read_protected(fichier_decl);
 
 	printf("LISTE VOTANTS :\n");
 	print_list_keys(voters);

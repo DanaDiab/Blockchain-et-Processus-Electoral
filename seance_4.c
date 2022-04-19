@@ -95,6 +95,7 @@ void delete_hashtable(HashTable* t)
 
 Key* compute_winner(CellProtected* decl, CellKey* candidates, CellKey* voters, int sizeC, int sizeV)
 {
+	if ((decl==NULL) || (candidates==NULL) || (voters==NULL))return NULL;
 	HashTable* Hc = create_hashtable(candidates, sizeC);
 	HashTable* Hv = create_hashtable(voters, sizeV);
 	

@@ -88,8 +88,8 @@ void add_cell_protected(CellProtected **LCP, Protected * pr){	//Ajout d'une nouv
 	}
 }
 
-CellProtected* read_protected(){		//Creation d'une liste CellProtected à partir d'un fichier
-	FILE* f=fopen("declarations.txt","r");	//ouverture du fichier
+CellProtected* read_protected(char *fic){		//Creation d'une liste CellProtected à partir d'un fichier
+	FILE* f=fopen(fic,"r");	//ouverture du fichier
 	CellProtected* LCP=NULL;
 	if (f==NULL){
 		printf("Erreur lors de l'ouverture du fichier\n");

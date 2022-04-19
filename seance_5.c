@@ -18,7 +18,7 @@ Block * create_block(Key * author, CellProtected* votes, unsigned char * hash, u
 		b->author=author;
 		b->votes=votes;
 		b->hash=(unsigned char *) strdup((char *)hash);
-		b->previous_hash=(unsigned char *) strdup((char*)prev_hash);
+		b->previous_hash=(unsigned char *)strdup((char*)prev_hash);
 		b->nonce=nonce;
 	}
 	return b;
@@ -97,7 +97,7 @@ char* block_to_str(Block *block)
 		curr=curr->next;
 	}
 	char* res = (char*)malloc(sizeof(char)*((n+10)*256));
-	if (res==NULL) return "";
+	if (res==NULL) return NULL;
 	char* author = key_to_str(block->author);
 	char* vote;
 	strcpy(res, author);
@@ -120,13 +120,75 @@ char* block_to_str(Block *block)
 }
 
 unsigned char * hashage(const char *s){
-	return SHA256((unsigned char *)s,strlen(s), 0);
+	unsigned char *hash =  SHA256((unsigned char *)s,strlen(s), 0);
+	unsigned char *res=(unsigned char*)malloc(64*sizeof(unsigned char)+1);
+	res[0]='\0';
+	unsigned char curr[256];
+	for(int i=0; i<SHA256_DIGEST_LENGTH; i++)
+	{
+		sprintf((char*)curr, "%02x", hash[i]);
+		strcat((char*)res, (char*)curr);
+	}
+	return res;
 }
 
-void affichage_hashage(unsigned char * d){
-	for(int i=0; i<SHA256_DIGEST_LENGTH ;i++){
-		printf("%02x",d[i]);
+
+void compute_proof_of_work(Block *b , int d){
+	b->nonce=0;
+	char * str_block=block_to_str(b);
+	unsigned char * hash=hashage(str_block);
+	int flag=0;
+	while (!flag){
+		for (int i=0;i<d;i++){
+			if (hash[i]!='0'){ 
+				flag=0;
+				break;
+			}
+			flag=1;
+		}
+		if(!flag)
+		{
+			b->nonce++;
+			free(str_block);
+			free(hash);
+			str_block=block_to_str(b);
+			hash=hashage(str_block);
+		}
 	}
-	putchar('\n');
+	free(b->hash);
+	b->hash=hash;
+	free(str_block);
 }
+
+
+int verify_block(Block *b, int d){ //return 1 si block valide;
+	unsigned char *hash=b->hash;
+	int flag=1;
+	for (int i=0;i<d;i++){
+		if (hash[i]!='0'){
+			flag=0;
+			break;
+		}
+	}
+	return flag;
+}
+	
+
+void delete_block(Block *b)
+{
+	if (b==NULL) return;
+	CellProtected *parc=b->votes;
+	free(b->hash);
+	free(b->previous_hash);
+	while(parc)
+	{
+		parc=parc->next;
+		free(b->votes);
+		b->votes=parc;
+	}
+	free(b);
+}
+
+
+
 

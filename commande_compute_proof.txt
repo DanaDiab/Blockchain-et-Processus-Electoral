@@ -1,0 +1,5 @@
+plot "sortie_compute_proof.txt" using 1:2 title 'compute proof of work' with lines
+set term postscript portrait
+set output "01_courbes_vitesse_compute.ps"
+set size 0.7,0.7
+show output
