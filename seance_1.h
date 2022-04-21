@@ -1,7 +1,6 @@
 #ifndef BLOCK_CHAIN_H
 #define BLOCK_CHAIN_H
 
-
 int naive_is_prime(long);
 long modpow_naive(long a,long m,long n);
 long modpow(long a, long m,long n);
