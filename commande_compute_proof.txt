@@ -3,3 +3,4 @@ set term postscript portrait
 set output "01_courbes_vitesse_compute.ps"
 set size 0.7,0.7
 show output
+k
