@@ -4,4 +4,3 @@ set term postscript portrait
 set output "01_courbes_vitesse_modpow.ps"
 set size 0.7,0.7
 show output
-j
