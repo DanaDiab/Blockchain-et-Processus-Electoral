@@ -24,7 +24,7 @@ int main()
 	srand(time(NULL));
 
 	//Génération des données
-	generate_random_data(100,5);
+	generate_random_data(1000,5);
 
 	//Création des 3 listes : Elécteurs, Candidats et Déclarations
 	char *fichier_voters="keys.txt";
@@ -70,22 +70,30 @@ int main()
 		
 	}
 	tmpTree=tree;
+	while (tmpTree){
+		delete_list_protected(tmpTree->block->votes);
+		tmpTree->block->votes=NULL;
+		free(tmpTree->block->author);
+		tmpTree=tmpTree->firstChild;
+	}
+	delete_tree(tree);
+	tree=read_tree();
+	tmpTree=tree;
 	print_tree(tmpTree);
 
-	Key * winner=compute_winner_BT(tree,candidates,voters,6,101);
+	Key * winner=compute_winner_BT(tree,candidates,voters,7,1200);
 	char * gagnant=key_to_str(winner);
-	printf("Le gagnant est : %s\n",gagnant);
+	printf("\n\n-------------------- LE GAGNANT EST : %s ---------------------\n\n",gagnant);
 
 	free(winner);
 	free(gagnant);
 	
 	delete_list_protected(tree->block->votes);
-	
-	while (tree){
-		tree->block->votes=NULL;
-		free(tree->block->author);
-		delete_block(tree->block);
-		tree=tree->firstChild;
+	tmpTree=tree;
+	while (tmpTree){
+		tmpTree->block->votes=NULL;
+		free(tmpTree->block->author);
+		tmpTree=tmpTree->firstChild;
 		
 	}
 	delete_tree(tree);

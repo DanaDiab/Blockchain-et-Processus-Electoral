@@ -11,7 +11,7 @@
 
 HashCell *create_hashcell(Key* key)
 {
-	HashCell*new=malloc(sizeof(HashCell));
+	HashCell* new=malloc(sizeof(HashCell));
 	if (new!=NULL){
 		Key* new_key=malloc(sizeof(Key));
 		if (new_key!=NULL){
@@ -86,7 +86,8 @@ void delete_hashtable(HashTable* t)
 		if (t->tab[i]!=NULL){
 			free(t->tab[i]->key);
 		}
-		free(t->tab[i]);
+		free(t->tab[i]); 
+			
 	}
 	free(t->tab);
 	free(t);
