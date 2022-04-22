@@ -69,7 +69,7 @@ int witness( long a , long b , long d , long p ) {		//Retourne 1 si a est temoin
 	return 1;
 }
 
-long rand_long( long low , long up ) {				//Retourne un entier généré aleatoirement entre low et up
+long rand_long( long low , long up ) {				//Retourne un long généré aleatoirement entre low et up
 	return rand () % ( up - low +1) + low ;
 }
 
@@ -100,11 +100,11 @@ int is_prime_miller ( long p , int k ) {			//Retourne 1 si p est premier, 0 sino
 }
 
 long random_prime_number(int low_size, int up_size, int k ){	//Retourne un entier premier aléatoire
-	long min = powl(2, low_size-1);				//plus petit entier codé avec exactement low_size bits
-	long max = powl(2, up_size)-1;				//plus grand entier codé avec exactement up_size bits.
-	long alea= rand_long(min, max);				// entier aléatoir entre min et max
+	long min = powl(2, low_size-1);				//plus petit long codé avec exactement low_size bits
+	long max = powl(2, up_size)-1;				//plus grand long codé avec exactement up_size bits.
+	long alea= rand_long(min, max);				//long aléatoir entre min et max
 	int premier=is_prime_miller(alea,k);			// test s'il est premier, en répétant le test de miller k fois.
-	while (premier!=1){					//gènerer un nouveau entier jusqu'à trouver un entier premier.
+	while (premier!=1){					//gènerer un nouveau long jusqu'à trouver un long premier.
 		alea = rand_long(min, max);
 		premier=is_prime_miller(alea,k);
 	}
