@@ -3,8 +3,8 @@
 
 typedef struct key
 {
-	long k; //clé secrète ou privée
-	long n; //modulo
+	long k;
+	long n;		//modulo
 }Key;
 
 typedef struct signature
@@ -14,8 +14,8 @@ typedef struct signature
 }Signature;
 
 typedef struct protected{
-	Key* pkey;
-	char * mess;
+	Key* pkey;	// Public Key du voter
+	char * mess;	// Public Key du candidat sous forme de chaine de char
 	Signature* sign;
 }Protected;
 
