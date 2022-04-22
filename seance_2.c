@@ -186,7 +186,7 @@ void generate_random_data(int nv, int nc)
 	Key* tab_nv[nv];		// tableau qui stock les clés publiques des candidats
 	Key* tab_sk[nv];		// tableau qui stock les clés secretes des citoyens
 	
-	//Ouverture des fichiers
+	//Ouverture des fichiers en mode écriture
 	FILE *f_keys = fopen("keys.txt", "w");
 	FILE *f_candidats=fopen("candidates.txt", "w");
 	FILE *f_declarations=fopen("declarations.txt", "w");
