@@ -34,6 +34,7 @@ int main()
 	CellKey* candidates=read_public_keys(fichier_candidates);	
 	CellProtected* decl=read_protected(fichier_decl);
 
+
 	CellProtected * tmpD=decl;
 	CellKey* tmpV=voters;
 	CellTree* tree=NULL;

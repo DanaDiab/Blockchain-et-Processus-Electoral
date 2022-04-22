@@ -38,9 +38,8 @@ int find_position(HashTable* t, Key* key)
 		int hash_index=index; //Si on doit procéder à un probing on garde la valeur initiale de l'index.
 		do
 		{
-			if(t->tab[index]==NULL) return index;
-			if ( ((((t->tab[index])->key)->k)==(key->k)) && ((((t->tab[index])->key)->n)==(key->n)) ){
-				return -1;
+			if ((t->tab[index]==NULL) || (((((t->tab[index])->key)->k)==(key->k)) && ((((t->tab[index])->key)->n)==(key->n)))){
+				return index;
 			}
 			index=(index+1)%t->size; //si l'emplacement n'est pas disponible ou qu'il ne contient pas deja la valeur cherchée, on teste la case suivante pour le probing
 		}
@@ -70,10 +69,11 @@ HashTable * create_hashtable(CellKey* keys, int size){
 		while(keys){
 			index=find_position(hashtab,keys->data);
 			if (index!=-1){
-				hashtab->tab[index]=create_hashcell(keys->data);
+				if (hashtab->tab[index]==NULL){
+					hashtab->tab[index]=create_hashcell(keys->data);
+				}
 			}
 			else{
-				printf("La table de hachage est pleine . \n");
 				break;
 			}
 			keys=keys->next;

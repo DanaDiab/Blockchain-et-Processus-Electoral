@@ -219,6 +219,7 @@ void generate_random_data(int nv, int nc)
 		for (int j=0;j<i;j++){	//S'assurer que le candidat choisi n'est pas deja dans le tableau des candidats.
 			if ((tab_nv[alea]->k==tab_nc[j]->k) && (tab_nv[alea]->n==tab_nc[j]->n)){
 					flag=1;
+					break;
 			}
 		}
 		if (flag==0){

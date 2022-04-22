@@ -133,7 +133,6 @@ CellTree* read_tree(){
 				
 			
 Key * compute_winner_BT(CellTree* tree, CellKey * candidates, CellKey* voters,int sizeC, int sizeV){
-	if (tree==NULL) return NULL;
 	CellProtected* LCP=fusion_highest_child(tree);
 	delete_non_valide(&LCP);
 	Key * key=compute_winner(LCP,candidates,voters,sizeC,sizeV);
