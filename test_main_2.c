@@ -9,7 +9,7 @@
 int main(void){
   srand(time(NULL));
 
-  //Testing Init Keys
+ 	 //Testing Init Keys
 	Key* pKey=malloc(sizeof(Key));
   	Key* sKey= malloc(sizeof(Key));
 	if ((pKey==NULL)||(sKey==NULL)){
@@ -20,7 +20,7 @@ int main(void){
   	printf("pKey: %lx, %lx \n",pKey->k,pKey->n);
   	printf("sKey: %lx, %lx \n",sKey->k,sKey->n);
 
-  //Testing Key Serialization
+  	//Testing Key Serialization
 	char * chaine=key_to_str(pKey);
   	printf("key_to_str: %s \n",chaine);
   	Key* k=str_to_key(chaine);
@@ -40,18 +40,21 @@ int main(void){
 	}
   	init_pair_keys(pKeyC, sKeyC,3,7);
 
-  	//Declaration
+  	//Declaration et affichage
   	char *mess= key_to_str(pKeyC);
 	char* pkey_str=key_to_str(pKey);
   	printf("%s %s\n",pkey_str, mess);
 	free(pkey_str);
+	
   	Signature * sgn=sign(mess,sKey);
 	printf("signature: ");
 	print_long_vector(sgn->content,sgn->size);
+	
 	chaine=signature_to_str(sgn);
 	printf("signature_to_str: %s \n",chaine);
 	free(sgn->content);
 	free(sgn);
+	
 	sgn=str_to_signature(chaine);
 	printf("str_to_signature: ");
 	print_long_vector(sgn->content,sgn->size);
