@@ -19,6 +19,8 @@ int main()
 	char *fichier_voters="keys.txt";
 	char *fichier_candidates="candidates.txt";
 	char *fichier_decl="declarations.txt";
+	
+	//Declarations des listes
 	CellKey* voters=read_public_keys(fichier_voters);
 	CellKey* candidates=read_public_keys(fichier_candidates);	
 	CellProtected* decl=read_protected(fichier_decl);
@@ -27,6 +29,7 @@ int main()
 
 	char hash[20]="hash";
 	char pre_hash[20]="preHashhhhhhh";
+	
 	//creation d'un bloc valide b0
 	Block* b0 = create_block(voters->data,decl3,(unsigned char *) hash, (unsigned char * ) pre_hash,1234);
 	compute_proof_of_work(b0, 2);
@@ -53,7 +56,7 @@ int main()
 	
 	*/
 	
-	//creation de l'arbre asocié
+	//creation de l'arbre associé
 	CellTree *t0 = create_node(b0);
 	CellTree *t1 = create_node(b1);
 	CellTree *t2 = create_node(b2);
