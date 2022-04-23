@@ -205,7 +205,7 @@ void compute_proof_of_work(Block *b , int d){					//Fonction qui genere une preu
 int verify_block(Block *b, int d){						//Return 1 si block valide, 0 sinon
 	unsigned char *hash=b->hash;
 	int flag=1;
-	for (int i=0;i<d;i++){							//Comparaison les d premiers char à 0
+	for (int i=0;i<d;i++){							//Comparaison des d premiers char avec 0
 		if (hash[i]!='0'){						
 			flag=0;
 			break;
