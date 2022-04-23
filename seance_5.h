@@ -9,7 +9,7 @@ typedef struct block{
 	int nonce;
 }Block;
 
-Block * create_block (Key * author, CellProtected* votes,  unsigned char * hash, unsigned char * prev_hash,int nonce);
+Block * create_block (Key * author, CellProtected* votes,  unsigned char * hash, unsigned char * prev_hash,int nonce); //Fonction non demandé: qui crée un Block avec les valeurs passé en paramtère, allocation dynamique du Block, et des 2 valeurs hachées
 void block_to_file(Block* b, char* fichier);
 Block* file_to_block(char *fichier);
 char* block_to_str(Block *block);
