@@ -7,7 +7,9 @@
 #include "seance_1.h"
 
 int main(void){
-  srand(time(NULL));
+ 	
+	//Ce main est fourni dans le sujet .
+	srand(time(NULL));
 
  	 //Testing Init Keys
 	Key* pKey=malloc(sizeof(Key));
