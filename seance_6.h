@@ -20,4 +20,5 @@ CellTree* highest_child(CellTree* cell);
 CellTree* last_node(CellTree* tree);
 void fusion_cell_protected(CellProtected ** fst, CellProtected ** snd);
 CellProtected* fusion_highest_child(CellTree * tree);
+
 #endif
