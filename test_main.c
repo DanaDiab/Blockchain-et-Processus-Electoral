@@ -8,25 +8,10 @@
 
 int main ()
 {
-	srand(time(NULL));
-	long a_test = 1234;
-	long b_test = 5678;
-	long u_test = 0;
-	long v_test = 0;
-
-	//Calcul du pgcd de a et b et calcul des coefficients de Bézout u et v.
-	long pgcd_test = extended_gcd(a_test, b_test, &u_test, &v_test);
-	printf("PGCD_test = %ld, U = %ld, V = %ld", pgcd_test, u_test, v_test);
-
-	//Tests comparant et s'assurant des résultats des plusieurs fonctions de modpow
-	assert(modpow_rec(11, 13, 19)==11);
-	assert(modpow_naive(72, 2177, 5917)==1841);
-	int test_mp = modpow_rec(10, 5, 85);
-	printf("test_modpow : %d\n", test_mp);
-	assert(modpow_rec(72, 2177, 5917)==1841);
-	assert(modpow_naive(10, 5, 85)==40);
-	assert(modpow_rec(10, 5, 85)==40);
 	
+	//CE MAIN NOUS EST DONNE DANS LE SUJET DU PROJET
+	
+	srand(time(NULL));
 
 	//Generation de cle :
 	long p = random_prime_number (12 ,14 , 5000) ;
@@ -61,7 +46,7 @@ int main ()
 
 	//Dechiffrement
 	char * decoded = decrypt ( crypted , len , u , n ) ;
-	printf ( " Decoded : %s \n" , decoded ) ;	//Affiche bien 'Hello'
+	printf ( " Decoded : %s \n" , decoded ) ;
 
 	free(crypted);
 	free(decoded);
