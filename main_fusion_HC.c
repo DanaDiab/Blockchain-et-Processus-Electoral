@@ -12,11 +12,12 @@
 #include"seance_5.h"
 #include"seance_6.h"
 
-/*	CE MAIN CONTIENT LE TEST D'UNE SEULE FONCTION : FUSION_HIGHEST_CHILD	*/
 
 
 int main()
 {
+	/*	CE MAIN SE FOCALISE SURTOUT SUR LA FONCTION : FUSION_HIGHEST_CHILD	*/
+	
 	srand(time(NULL));
 	
 	char *fichier_voters="keys.txt";
