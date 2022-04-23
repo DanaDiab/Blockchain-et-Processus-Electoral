@@ -16,7 +16,7 @@
 
 
 
-/**********     Il faut supprimer les fichiers Block[i].txt dans le dossier Blockchain avant de lancer ce main une deuxième fois   ********/
+/********** !!!!!! Il faut supprimer les fichiers Block[i].txt dans le dossier Blockchain avant de lancer ce main une deuxième fois   ********/
 
 
 int main()
@@ -34,7 +34,7 @@ int main()
 	CellKey* candidates=read_public_keys(fichier_candidates);	
 	CellProtected* decl=read_protected(fichier_decl);
 
-
+	//Declarations
 	CellProtected * tmpD=decl;
 	CellKey* tmpV=voters;
 	CellTree* tree=NULL;
@@ -44,21 +44,25 @@ int main()
 	char fichier[20];
 
 	while (tmpD){
-		submit_vote(tmpD->data);
+		submit_vote(tmpD->data);	//Soumission d'un vote
 		tmpD=tmpD->next;
-		i++;
-		if (i%10==0){ 
+		i++;				//Compte le nb de vote
+		if (i%10==0){ 			//Chaque 10 votes, on crée un Block
 			
-			createBlock(tree,tmpV->data, 2);
-			tmpV=tmpV->next;
-
+			createBlock(tree,tmpV->data, 2);	//Creation de Block avec un author quelconque
+			tmpV=tmpV->next;			
+			
+			
+			//Mettre en place le nom du fichier dans lequel ecrire les Block : Block1.txt BLock2.txt ...
 			sprintf(fichier,"%s","Block");
 			sprintf(nb,"%d",i/10);
 			strcat(fichier, nb);
 			strcat(fichier,".txt");
 
-			add_block(2,fichier);
+			add_block(2,fichier);			//Ajout du Block dans un fichier dans le rep Blockchain
 			tmpTree=tree;
+			
+			//Libération du tree retourné par read_tree() au tour de boucle précedent
 			while (tmpTree){
 				delete_list_protected(tmpTree->block->votes);
 				tmpTree->block->votes=NULL;
@@ -66,6 +70,8 @@ int main()
 				tmpTree=tmpTree->firstChild;
 			}
 			delete_tree(tree);
+			
+			//Lecture de l'arbre pour avoir accès à la valeur haché du dernier Block ajouté
 			tree=read_tree();
 		}
 		
@@ -78,14 +84,22 @@ int main()
 		tmpTree=tmpTree->firstChild;
 	}
 	delete_tree(tree);
+	
+	
+	//Arbre Final
 	tree=read_tree();
+	
+	//Affichage de l'abre
 	tmpTree=tree;
 	print_tree(tmpTree);
 
+	//Recherche du gagnant et affichage de sa serialisation
 	Key * winner=compute_winner_BT(tree,candidates,voters,7,1200);
 	char * gagnant=key_to_str(winner);
 	printf("\n\n-------------------- LE GAGNANT EST : %s ---------------------\n\n",gagnant);
 
+	
+	//Liberation de mémoire
 	free(winner);
 	free(gagnant);
 	
@@ -102,5 +116,6 @@ int main()
 	delete_list_keys(voters);
 	delete_list_keys(candidates);
 	delete_list_protected(decl);
+	
 	return 0;
 }
