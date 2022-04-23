@@ -44,8 +44,8 @@ int find_position(HashTable* t, Key* key)
 			}
 			
 			index=(index+1)%t->size; 		//si l'emplacement n'est pas disponible ou qu'il ne contient pas deja la valeur cherchée, on teste la case suivante pour le probing
-		}
-		while(index%(t->size)!=hash_index);
+		}		
+		while(index%(t->size)!=hash_index);		//Jusqu'à retomber sur l'index intiale
 	}
 	return -1; //si il est impossible d'insérer alors on retourne -1
 }
