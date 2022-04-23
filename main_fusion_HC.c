@@ -22,6 +22,8 @@ int main()
 	char *fichier_voters="keys.txt";
 	char *fichier_candidates="candidates.txt";
 	char *fichier_decl="declarations.txt";
+	
+	//Declarations des listes
 	CellKey* voters=read_public_keys(fichier_voters);
 	CellKey* candidates=read_public_keys(fichier_candidates);	
 	CellProtected* decl=read_protected(fichier_decl);
@@ -56,13 +58,24 @@ int main()
 	add_child(&t2, t3);
 	add_child(&t0, t1);
 	
+	
+	/* FORME DE L'ARBRE
+	    t0
+	   |   \
+	   |    \
+	   t2    t1
+	   |
+	   |
+	   t3
+	*/
 
 	//___________________TEST DE FUSION HIGHEST CHILD________
 	CellProtected *LCP=fusion_highest_child(t0);
-	print_list_protected(LCP);
+	printf("FUSION HIGHEST CHILD :\n");
+	print_list_protected(LCP);			// Les mêmes votes sont donc répétés 3 fois (votes la plus longue chaine : de t0, t2 et t3)
 
 
-
+	//___________________LIBERATION DE LA MEMOIRE____________
 	delete_list_protected(decl);
 	delete_list_protected(decl2);
 	b0->votes=NULL;
