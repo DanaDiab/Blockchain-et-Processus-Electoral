@@ -81,7 +81,7 @@ int main()
 
 
 	//libération de la mémoire
-	//PROVISOIRE LE TEMPS DE COMPRENDRE LA CONSIGNE DE LIBERATIOND DE LA QUESTION 7.9 : on libère en affectant a null le champs votes de chaque bloc après avoir supprimé la liste qui est référencée dans le champs vote de tous les blocs (évite les doubles free). 
+	//on libère en affectant a null le champs votes de chaque bloc après avoir supprimé la liste qui est référencée dans le champs vote de tous les blocs (évite les doubles free). 
 	delete_list_protected(decl);
 	delete_list_protected(decl3);
 	b0->votes=NULL;
