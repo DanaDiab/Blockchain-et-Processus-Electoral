@@ -215,7 +215,7 @@ int verify_block(Block *b, int d){						//Return 1 si block valide, 0 sinon
 }
 	
 
-void delete_block(Block *b)							//Liberation de la mémoire occupé par un Block
+void delete_block(Block *b)		//Liberation de la mémoire occupé par un Block, sans liberation de l'author et des Protected contenus dans la liste votes
 {
 	if (b==NULL) return;
 	CellProtected *parc=b->votes;
