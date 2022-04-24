@@ -4,7 +4,7 @@
 typedef struct key
 {
 	long k;
-	long n;		//modulo
+	long n;			//modulo
 }Key;
 
 typedef struct signature
@@ -14,9 +14,9 @@ typedef struct signature
 }Signature;
 
 typedef struct protected{
-	Key* pkey;	// Public Key du voter
-	char * mess;	// Public Key du candidat sous forme de chaine de char
-	Signature* sign;
+	Key* pkey;		// Public Key du votant
+	char * mess;		// Public Key du candidat sous forme de chaine de char
+	Signature* sign;	//
 }Protected;
 
 void init_key(Key* key, long val, long n);
@@ -25,8 +25,11 @@ char * key_to_str(Key*  key);
 Key* str_to_key(char* str);
 Signature* init_signature(long *content, int size);
 Signature* sign(char* mess, Key* sKey);
+
+//Ces 2 fonctions sont fournies dans le sujet
 char* signature_to_str(Signature* sgn);
 Signature* str_to_signature(char* str);
+
 Protected* init_protected(Key * pkey, char * mess, Signature* sgn);
 int verify(Protected *pr);
 Protected * str_to_protected(char *str);
