@@ -79,7 +79,7 @@ int main()
 
 	/* Test de Serialisation du Block*/
 	char* b_str=block_to_str(b);
-	printf("BLOCK TO STR :\n%s\n", b_str);
+	printf("\n\nBLOCK TO STR :\n\n%s\n", b_str);
 	
 	//Liberation de la mémoire
 	free(b_str);
@@ -94,7 +94,7 @@ int main()
 	/*TEST de notre fonction de hashage*/
 	const char * s= "Rosetta code";
 	unsigned char * d = hashage(s);
-	printf("Hashage de 'Rosetta code' : \n");
+	printf("\n\n\nHashage de 'Rosetta code' : \n");
 	printf("%s\n", d);
 	free(d);
 
